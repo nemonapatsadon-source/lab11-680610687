@@ -1,47 +1,110 @@
-// create reference for input fields.
+// Create references for input fields
 const firstNameInput = document.querySelector("#first-name-input");
 const lastNameInput = document.querySelector("#last-name-input");
+const emailInput = document.querySelector("#email-input");
+const passwordInput = document.querySelector("#password-input");
+const passwordConfirmInput = document.querySelector("#password-confirm-input");
 
-// create reference for buttons.
 const submitBtn = document.querySelector("#submit-btn");
+const resetBtn = document.querySelector("#reset-btn");
 
-// simple email validation
 function validateEmail(email) {
-  var atPos = email.indexOf("@");
-  var dotPos = email.lastIndexOf(".");
+  const atPos = email.indexOf("@");
+  const dotPos = email.lastIndexOf(".");
+
   return atPos > 0 && dotPos > atPos + 1 && dotPos < email.length - 1;
 }
 
-// add callback function for firstNameInput.onkeyup event
-firstNameInput.onkeyup = () => {
-  firstNameInput.classList.remove("is-valid");
-  firstNameInput.classList.remove("is-invalid");
-};
+function resetValidation(input) {
+  input.classList.remove("is-valid");
+  input.classList.remove("is-invalid");
+}
 
-// add callback functions for other input events.
-// (lastname, email, password, confirm password)
+function setValidation(input, isValid) {
+  resetValidation(input);
 
-// add callback function for submit button.
-submitBtn.onclick = () => {
-  isFirstNameOk = false;
-
-  // validate first name
-  if (firstNameInput.value !== "CPE207") {
-    firstNameInput.classList.add("is-invalid");
+  if (isValid) {
+    input.classList.add("is-valid");
   } else {
-    firstNameInput.classList.add("is-valid");
-    isFirstNameOk = true;
+    input.classList.add("is-invalid");
   }
 
-  // validate last name
+  return isValid;
+}
 
-  // validate email
-
-  // validate password
-
-  // validate confirm password
-
-  if (isFirstNameOk) alert("Registered successfully");
+firstNameInput.onkeyup = () => {
+  resetValidation(firstNameInput);
 };
 
-// add callback function for Reset button.
+lastNameInput.onkeyup = () => {
+  resetValidation(lastNameInput);
+};
+
+emailInput.onkeyup = () => {
+  resetValidation(emailInput);
+};
+
+passwordInput.onkeyup = () => {
+  resetValidation(passwordInput);
+
+  resetValidation(passwordConfirmInput);
+};
+
+passwordConfirmInput.onkeyup = () => {
+  resetValidation(passwordConfirmInput);
+};
+
+submitBtn.onclick = () => {
+  const isFirstNameOk = setValidation(
+    firstNameInput,
+    firstNameInput.value.trim().length > 0,
+  );
+
+  const isLastNameOk = setValidation(
+    lastNameInput,
+    lastNameInput.value.trim().length > 0,
+  );
+
+  const isEmailOk = setValidation(
+    emailInput,
+    validateEmail(emailInput.value.trim()),
+  );
+
+  const isPasswordOk = setValidation(
+    passwordInput,
+    passwordInput.value.length >= 6,
+  );
+
+  const isPasswordConfirmOk = setValidation(
+    passwordConfirmInput,
+    passwordConfirmInput.value.length >= 6 &&
+      passwordConfirmInput.value === passwordInput.value,
+  );
+
+  if (
+    isFirstNameOk &&
+    isLastNameOk &&
+    isEmailOk &&
+    isPasswordOk &&
+    isPasswordConfirmOk
+  ) {
+    alert("Registered successfully");
+  }
+};
+
+resetBtn.onclick = () => {
+  const inputs = [
+    firstNameInput,
+    lastNameInput,
+    emailInput,
+    passwordInput,
+    passwordConfirmInput,
+  ];
+
+  inputs.forEach((input) => {
+    input.value = "";
+    resetValidation(input);
+  });
+
+  firstNameInput.focus();
+};
