@@ -2,11 +2,11 @@
 
 ### ป้อนข้อมูลนักศึกษา
 
-รหัส นศ.:
+รหัส นศ.: 680610687
 
-ชื่อ-สกุล :
+ชื่อ-สกุล : นภัสดล จำปา
 
-GitHub Page URL :
+GitHub Page URL :https://nemonapatsadon-source.github.io/lab11-680610687/
 
 ---
 
